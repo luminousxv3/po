@@ -6,7 +6,7 @@
     <title>About Ujayy | Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;700&family=Playfair+Display:wght@700;900&display=swap');
         
         * {
             margin: 0;
@@ -34,6 +34,8 @@
             --neon-cyan: #00f3ff;
             --neon-purple: #bc13fe;
             --neon-pink: #ff0099;
+            --neon-gold: #ffd700;
+            --neon-red: #dc143c;
             --transition: all 0.3s ease;
             --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
@@ -43,6 +45,8 @@
             --gradient-6: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
             --gradient-7: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
             --gradient-8: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            --card-red: #c41e3a;
+            --card-black: #1a1a2e;
         }
         
         body {
@@ -124,13 +128,6 @@
             background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
             background-size: 100% 4px;
             opacity: 0.2;
-        }
-
-        .scanlines::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
         }
         
         .hud-corners { position: absolute; width: 100%; height: 100%; top: 0; left: 0; }
@@ -509,7 +506,7 @@
         
         .about-stats {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2, 10);
             gap: 15px;
             margin-top: 30px;
         }
@@ -648,126 +645,267 @@
             padding-bottom: 10px;
         }
         
-        .skill-card {
+        /* ========================================
+           FLIP CARD STYLES - KARTU REMI
+           ======================================== */
+        
+        .flip-card {
             min-width: 280px;
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 25px;
-            transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
+            height: 380px;
+            perspective: 1500px;
             display: inline-block;
             vertical-align: top;
             white-space: normal;
+            cursor: pointer;
         }
         
-        .skill-card::before {
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+        
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .flip-card-front {
+            background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        .flip-card-front::before {
             content: '';
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: var(--gradient-1);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: -1;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 10px,
+                    rgba(255, 255, 255, 0.02) 10px,
+                    rgba(255, 255, 255, 0.02) 20px
+                );
+            pointer-events: none;
         }
         
-        .skill-card:nth-child(2)::before { background: var(--gradient-2); }
-        .skill-card:nth-child(3)::before { background: var(--gradient-3); }
-        .skill-card:nth-child(4)::before { background: var(--gradient-4); }
-        .skill-card:nth-child(5)::before { background: var(--gradient-5); }
-        .skill-card:nth-child(6)::before { background: var(--gradient-6); }
-        .skill-card:nth-child(7)::before { background: var(--gradient-7); }
-        .skill-card:nth-child(8)::before { background: var(--gradient-8); }
-        
-        .skill-card:hover::before { opacity: 0.1; }
-        
-        .skill-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-            background-color: rgba(255, 255, 255, 0.08);
+        .card-suit-corner {
+            position: absolute;
+            font-family: 'Playfair Display', serif;
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1;
+            opacity: 0.9;
         }
         
-        .skill-header { display: flex; align-items: center; margin-bottom: 15px; }
+        .card-suit-corner.top-left {
+            top: 12px;
+            left: 12px;
+        }
         
-        .skill-icon {
-            width: 50px; height: 50px;
-            background: var(--gradient-1);
-            border-radius: 12px;
+        .card-suit-corner.bottom-right {
+            bottom: 12px;
+            right: 12px;
+            transform: rotate(180deg);
+        }
+        
+        .card-suit-corner .suit-symbol {
+            font-size: 18px;
+            display: block;
+            margin-top: 2px;
+        }
+        
+        .card-suit-red { color: var(--card-red); }
+        .card-suit-black { color: var(--secondary-color); }
+        
+        .skill-card-content {
+            padding: 50px 20px 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .skill-icon-large {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 15px;
-            font-size: 24px;
+            font-size: 36px;
             color: white;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .skill-card:nth-child(2) .skill-icon { background: var(--gradient-2); }
-        .skill-card:nth-child(3) .skill-icon { background: var(--gradient-3); }
-        .skill-card:nth-child(4) .skill-icon { background: var(--gradient-4); }
-        .skill-card:nth-child(5) .skill-icon { background: var(--gradient-5); }
-        .skill-card:nth-child(6) .skill-icon { background: var(--gradient-6); }
-        .skill-card:nth-child(7) .skill-icon { background: var(--gradient-7); }
-        .skill-card:nth-child(8) .skill-icon { background: var(--gradient-8); }
-        
-        .skill-title { font-size: 18px; font-weight: 700; }
-        
-        .skill-description {
-            font-size: 14px;
-            color: var(--gray-medium);
-            line-height: 1.5;
             margin-bottom: 20px;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
         
-        .skill-progress-container { position: relative; margin-top: 15px; }
+        .skill-icon-large::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
         
-        .skill-progress-label {
+        .skill-title-large {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+        
+        .skill-category-badge {
+            padding: 4px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray-medium);
+        }
+        
+        .flip-hint {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            color: var(--gray-medium);
+            opacity: 0.6;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .flip-hint i {
+            animation: pulse-hint 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-hint {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+        
+        .flip-card-back {
+            background: linear-gradient(145deg, #0d0d1a 0%, #1a1a2e 100%);
+            border: 2px solid;
+            transform: rotateY(180deg);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .flip-card-back.gradient-1 { border-color: #667eea; }
+        .flip-card-back.gradient-2 { border-color: #f093fb; }
+        .flip-card-back.gradient-3 { border-color: #4facfe; }
+        .flip-card-back.gradient-4 { border-color: #43e97b; }
+        .flip-card-back.gradient-5 { border-color: #fa709a; }
+        .flip-card-back.gradient-6 { border-color: #30cfd0; }
+        .flip-card-back.gradient-7 { border-color: #a8edea; }
+        .flip-card-back.gradient-8 { border-color: #ff9a9e; }
+        
+        .back-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .back-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+        }
+        
+        .back-title {
+            font-size: 16px;
+            font-weight: 700;
+        }
+        
+        .back-subtitle {
+            font-size: 11px;
+            color: var(--gray-medium);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .back-description {
+            font-size: 13px;
+            color: var(--gray-medium);
+            line-height: 1.6;
+            margin-bottom: 15px;
+            flex-grow: 0;
+        }
+        
+        .back-progress-section {
+            margin-bottom: 15px;
+        }
+        
+        .back-progress-label {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-size: 12px;
-            color: var(--gray-medium);
         }
         
-        .skill-progress {
-            height: 8px;
-            background-color: rgba(255, 255, 255, 0.1);
+        .back-progress-label span:last-child {
+            font-weight: 700;
+        }
+        
+        .back-progress-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             overflow: hidden;
         }
         
-        .skill-progress-bar {
+        .back-progress-fill {
             height: 100%;
-            background: var(--gradient-1);
             border-radius: 10px;
-            width: 0;
-            transition: width 1.5s ease-out;
-            position: relative;
-            overflow: hidden;
+            transition: width 1s ease-out;
         }
         
-        .skill-card:nth-child(2) .skill-progress-bar { background: var(--gradient-2); }
-        .skill-card:nth-child(3) .skill-progress-bar { background: var(--gradient-3); }
-        .skill-card:nth-child(4) .skill-progress-bar { background: var(--gradient-4); }
-        .skill-card:nth-child(5) .skill-progress-bar { background: var(--gradient-5); }
-        .skill-card:nth-child(6) .skill-progress-bar { background: var(--gradient-6); }
-        .skill-card:nth-child(7) .skill-progress-bar { background: var(--gradient-7); }
-        .skill-card:nth-child(8) .skill-progress-bar { background: var(--gradient-8); }
-        
-        .skill-tags {
+        .back-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 15px;
+            gap: 6px;
+            margin-top: auto;
         }
         
-        .skill-tag {
+        .back-tag {
             padding: 4px 10px;
-            background-color: rgba(255, 255, 255, 0.08);
-            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
             font-size: 10px;
             font-weight: 500;
             text-transform: uppercase;
@@ -775,9 +913,223 @@
             transition: var(--transition);
         }
         
-        .skill-tag:hover {
-            background-color: rgba(255, 255, 255, 0.15);
+        .back-tag:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        /* PROJECT FLIP CARDS */
+        .project-flip-card {
+            min-width: 300px;
+            height: 420px;
+            perspective: 1500px;
+            display: inline-block;
+            vertical-align: top;
+            white-space: normal;
+            cursor: pointer;
+        }
+        
+        .project-flip-card .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+        
+        .project-flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .project-flip-card .flip-card-front,
+        .project-flip-card .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .project-flip-card .flip-card-front {
+            background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .project-image-container {
+            height: 180px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .project-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .project-flip-card:hover .project-image-container img {
+            transform: scale(1.05);
+        }
+        
+        .project-image-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.8) 100%);
+        }
+        
+        .project-front-content {
+            padding: 20px;
+            height: calc(100% - 180px);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .project-front-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .project-front-desc {
+            font-size: 12px;
+            color: var(--gray-medium);
+            line-height: 1.5;
+            flex-grow: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .project-front-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 12px;
+        }
+        
+        .project-front-tag {
+            padding: 3px 8px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            font-size: 9px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .project-flip-card .flip-card-back {
+            background: linear-gradient(145deg, #0d0d1a 0%, #1a1a2e 100%);
+            border: 2px solid var(--neon-cyan);
+            transform: rotateY(180deg);
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .project-back-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .project-back-icon::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            animation: rotate-border 20s linear infinite;
+        }
+        
+        @keyframes rotate-border {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .project-back-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .project-back-type {
+            font-size: 11px;
+            color: var(--neon-cyan);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+        
+        .project-back-details {
+            flex-grow: 1;
+        }
+        
+        .project-back-detail-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        
+        .project-back-detail-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            flex-shrink: 0;
+        }
+        
+        .project-back-detail-text {
+            font-size: 12px;
+            color: var(--gray-medium);
+            line-height: 1.5;
+        }
+        
+        .project-back-detail-text strong {
+            color: var(--secondary-color);
+            display: block;
+            margin-bottom: 2px;
+        }
+        
+        .project-back-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            background: var(--gradient-1);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            margin-top: auto;
+            cursor: pointer;
+        }
+        
+        .project-back-btn:hover {
             transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .project-back-btn i {
+            margin-left: 8px;
         }
         
         .skills-controls {
@@ -821,196 +1173,6 @@
         }
         
         .skill-btn:active { transform: scale(0.95); }
-        
-        .projects-slider {
-            display: flex;
-            gap: 20px;
-            padding-bottom: 10px;
-        }
-        
-        .project-card {
-            min-width: 280px;
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: inline-block;
-            vertical-align: top;
-            white-space: normal;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            cursor: pointer;
-        }
-        
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
-            border-color: var(--neon-cyan);
-        }
-        
-        .project-img {
-            height: 160px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .project-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        
-        .project-card:hover .project-img img { transform: scale(1.05); }
-        
-        .project-img::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: var(--gradient-1);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        
-        .project-card:nth-child(2) .project-img::after { background: var(--gradient-2); }
-        .project-card:nth-child(3) .project-img::after { background: var(--gradient-3); }
-        
-        .project-card:hover .project-img::after { opacity: 0.2; }
-        
-        .project-content { padding: 15px; }
-        
-        .project-content h3 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            line-height: 1.3;
-        }
-        
-        .project-content p {
-            font-size: 13px;
-            color: var(--gray-medium);
-            line-height: 1.5;
-            margin-bottom: 12px;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        
-        .project-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 0px;
-        }
-        
-        .project-tag {
-            padding: 3px 8px;
-            background-color: rgba(255, 255, 255, 0.08);
-            border-radius: 50px;
-            font-size: 9px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: var(--transition);
-        }
-        
-        .project-tag:hover {
-            background-color: rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px);
-        }
-        
-        /* MODAL STYLES */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px);
-            z-index: 100000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .modal-overlay.open {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .modal-content {
-            background: #111;
-            width: 90%;
-            max-width: 600px;
-            border-radius: 16px;
-            padding: 30px;
-            position: relative;
-            border: 1px solid var(--neon-cyan);
-            box-shadow: 0 0 30px rgba(0, 243, 255, 0.15);
-            transform: translateY(20px);
-            transition: transform 0.3s ease;
-        }
-
-        .modal-overlay.open .modal-content {
-            transform: translateY(0);
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: var(--gray-medium);
-            font-size: 24px;
-            cursor: pointer;
-            transition: color 0.3s;
-            z-index: 10;
-        }
-
-        .close-modal:hover {
-            color: var(--neon-pink);
-        }
-
-        .modal-body h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
-            color: var(--neon-cyan);
-        }
-
-        .modal-body p {
-            color: #ccc;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .modal-btn {
-            display: inline-block;
-            background: var(--gradient-1);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            transition: var(--transition);
-        }
-
-        .modal-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
 
         .contact-content { text-align: center; }
         .contact-text { margin-bottom: 40px; }
@@ -1052,6 +1214,7 @@
             justify-content: center;
             position: relative;
             overflow: hidden;
+            cursor: pointer;
         }
         
         .contact-btn::before {
@@ -1110,6 +1273,7 @@
             transition: var(--transition);
             position: relative;
             overflow: hidden;
+            cursor: pointer;
         }
         
         .social-links a::before {
@@ -1180,7 +1344,7 @@
             .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
             .about-content { flex-direction: column; gap: 30px; }
             .about-stats { grid-template-columns: repeat(2, 1fr); }
-            .skill-card { min-width: 260px; }
+            .flip-card, .project-flip-card { min-width: 260px; }
             .skills-controls { display: flex; }
             .footer-content { flex-direction: column; gap: 15px; }
             .footer-logo { margin-right: 0; }
@@ -1189,8 +1353,8 @@
         }
         
         @media (min-width: 769px) and (max-width: 1024px) {
-            .skill-card { min-width: 270px; }
-            .project-card { min-width: 290px; }
+            .flip-card { min-width: 270px; }
+            .project-flip-card { min-width: 290px; }
         }
         
         @media (min-width: 1025px) {
@@ -1200,15 +1364,10 @@
     </style>
 </head>
 <body>
-    <!-- CUSTOM CROSSHAIR CURSOR -->
     <div class="custom-cursor" id="customCursor"></div>
-
-    <!-- SCROLL PROGRESS BAR -->
     <div class="scroll-progress-container">
         <div class="scroll-progress-bar" id="scrollProgressBar"></div>
     </div>
-
-    <!-- FUTURISTIC OVERLAY -->
     <div class="futuristic-overlay">
         <div class="scanlines"></div>
         <div class="flicker-overlay"></div>
@@ -1221,17 +1380,6 @@
             <div class="hud-text hud-text-bottom">ENCRYPTED</div>
         </div>
     </div>
-
-    <div class="animated-bg"></div>
-    
-    <div class="particles" id="particles"></div>
-    
-    <div class="geometric-shapes">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
-        <div class="shape shape-4"></div>
-    </div>
     
     <header id="header">
         <nav>
@@ -1242,9 +1390,9 @@
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li>
-                    <a href="#" class="btn-hidden-link nav-link-store" data-link="https://ujayy.vercel.app/">
+                    <span class="nav-link-store secret-link" data-target="aHR0cHM6Ly91amF5eS52ZXJjZWwuYXBwLw==">
                         Store <i class="fas fa-shopping-bag"></i>
-                    </a>
+                    </span>
                 </li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
@@ -1264,12 +1412,12 @@
             <div class="hero-buttons">
                 <a href="#projects" class="btn btn-primary">View My Work <i class="fas fa-arrow-right"></i></a>
                 <a href="#contact" class="btn btn-secondary">Get In Touch <i class="fas fa-envelope"></i></a>
-                <a href="#" class="btn btn-accent btn-hidden-link" data-link="https://ujayy.vercel.app/">
+                <span class="btn btn-accent secret-link" data-target="aHR0cHM6Ly91amF5eS52ZXJjZWwuYXBwLw==">
                     Visit My Store <i class="fas fa-shopping-bag"></i>
-                </a>
-                <a href="#" class="btn btn-accent btn-hidden-link" data-link="https://click-for.joinn.workers.dev">
+                </span>
+                <span class="btn btn-accent secret-link" data-target="aHR0cHM6Ly9jbGljay1mb3Iuam9pbm4ud29ya2Vycy5kZXY=">
                     Join All Group & Channel <i class="fab fa-telegram"></i>
-                </a>
+                </span>
             </div>
         </div>
     </section>
@@ -1279,33 +1427,18 @@
             <div class="section-badge">About Me</div>
             <h2 class="section-title">Front End Developer.</h2>
             <p class="section-subtitle">Passionate about creating beautiful, functional, and user-centered digital experiences.</p>
-            
             <div class="about-content">
                 <div class="about-text">
                     <h3>Crafting Digital Experiences</h3>
                     <p>I am a dedicated Front-End Developer focused on building high-performance, responsive web interfaces. I translate design concepts into clean, semantic code using the latest web technologies.</p>
                     <p>My expertise lies in the core technologies of the web: HTML5, CSS3, and modern JavaScript (ES6+). I specialize in modern frameworks like React, Vue, and Angular to build scalable applications, and I am proficient in utility-first styling with Tailwind CSS and Bootstrap to ensure pixel-perfect designs across all devices.</p>
-                    
                     <div class="about-stats">
-                        <div class="stat-item">
-                            <div class="stat-number">15+</div>
-                            <div class="stat-label">Projects</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">2+</div>
-                            <div class="stat-label">Years Exp</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">40+</div>
-                            <div class="stat-label">Clients</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">10+</div>
-                            <div class="stat-label">Awards</div>
-                        </div>
+                        <div class="stat-item"><div class="stat-number">15+</div><div class="stat-label">Projects</div></div>
+                        <div class="stat-item"><div class="stat-number">2+</div><div class="stat-label">Years Exp</div></div>
+                        <div class="stat-item"><div class="stat-number">40+</div><div class="stat-label">Clients</div></div>
+                        <div class="stat-item"><div class="stat-number">10+</div><div class="stat-label">Awards</div></div>
                     </div>
                 </div>
-                
                 <div class="about-img">
                     <img src="https://z-cdn-media.chatglm.cn/files/54c1ef04-7cbb-4c03-8f17-30a149e8f790.jpg?auth_key=1867350947-5ac9aa34760f4424becf9617002702a6-0-ba90ebb2bb30a5785031d1bf852ab593" alt="Ahmad Fauzi Profile Picture">
                 </div>
@@ -1316,9 +1449,8 @@
     <section class="section skills" id="skills">
         <div class="container">
             <div class="section-badge">Expertise</div>
-            <h2 class="section-title">Skills & Technologies</h2>
+            <h2 class="section-title">Skills and Technologies</h2>
             <p class="section-subtitle">Mastering the modern web stack to build exceptional interfaces</p>
-            
             <div class="skills-tabs">
                 <div class="skill-tab active" data-category="all">All Skills</div>
                 <div class="skill-tab" data-category="core">Core</div>
@@ -1326,157 +1458,180 @@
                 <div class="skill-tab" data-category="styling">Styling</div>
                 <div class="skill-tab" data-category="libraries">Libraries</div>
             </div>
-            
             <div class="skills-container">
                 <div class="horizontal-scroll-container" id="skillsScrollContainer">
                     <div class="skills-slider" id="skillsSlider">
-                        <!-- Card 1: HTML5 & CSS3 -->
-                        <div class="skill-card" data-category="core">
-                            <div class="skill-header">
-                                <div class="skill-icon"><i class="fab fa-html5"></i></div>
-                                <div class="skill-title">HTML5 & CSS3</div>
-                            </div>
-                            <div class="skill-description">The backbone of the web. Crafting semantic structure, accessible content, and responsive layouts.</div>
-                            <div class="skill-progress-container">
-                                <div class="skill-progress-label"><span>Proficiency</span><span>95%</span></div>
-                                <div class="skill-progress"><div class="skill-progress-bar" data-width="95%"></div></div>
-                            </div>
-                            <div class="skill-tags">
-                                <span class="skill-tag">HTML5</span>
-                                <span class="skill-tag">CSS3</span>
-                                <span class="skill-tag">Responsive</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Card 2: JavaScript -->
-                        <div class="skill-card" data-category="core">
-                            <div class="skill-header">
-                                <div class="skill-icon"><i class="fab fa-js-square"></i></div>
-                                <div class="skill-title">JavaScript</div>
-                            </div>
-                            <div class="skill-description">Bringing websites to life with dynamic logic, DOM manipulation, and asynchronous programming.</div>
-                            <div class="skill-progress-container">
-                                <div class="skill-progress-label"><span>Proficiency</span><span>90%</span></div>
-                                <div class="skill-progress"><div class="skill-progress-bar" data-width="90%"></div></div>
-                            </div>
-                            <div class="skill-tags">
-                                <span class="skill-tag">ES6+</span>
-                                <span class="skill-tag">DOM</span>
-                                <span class="skill-tag">Async</span>
+                        <!-- SKILL CARDS -->
+                        <div class="flip-card" data-category="core">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="card-suit-corner top-left card-suit-red">A<span class="suit-symbol"><i class="fab fa-html5"></i></span></div>
+                                    <div class="card-suit-corner bottom-right card-suit-red">A<span class="suit-symbol"><i class="fab fa-html5"></i></span></div>
+                                    <div class="skill-card-content">
+                                        <div class="skill-icon-large" style="background: var(--gradient-1);"><i class="fab fa-html5"></i></div>
+                                        <div class="skill-title-large">HTML5 and CSS3</div>
+                                        <div class="skill-category-badge">Core Technology</div>
+                                    </div>
+                                    <div class="flip-hint"><i class="fas fa-hand-pointer"></i> Click to flip</div>
+                                </div>
+                                <div class="flip-card-back gradient-1">
+                                    <div class="back-header"><div class="back-icon" style="background: var(--gradient-1);"><i class="fab fa-html5"></i></div><div><div class="back-title">HTML5 and CSS3</div><div class="back-subtitle">Core Technology</div></div></div>
+                                    <div class="back-description">The backbone of the web. Crafting semantic structure, accessible content, and responsive layouts with modern CSS features.</div>
+                                    <div class="back-progress-section"><div class="back-progress-label"><span>Proficiency</span><span style="color: #667eea;">95%</span></div><div class="back-progress-bar"><div class="back-progress-fill" style="width: 95%; background: var(--gradient-1);"></div></div></div>
+                                    <div class="back-tags"><span class="back-tag">HTML5</span><span class="back-tag">CSS3</span><span class="back-tag">Responsive</span><span class="back-tag">Flexbox</span><span class="back-tag">Grid</span></div>
+                                </div>
                             </div>
                         </div>
                         
-                        <!-- Card 3: React -->
-                        <div class="skill-card" data-category="frameworks">
-                            <div class="skill-header">
-                                <div class="skill-icon"><i class="fab fa-react"></i></div>
-                                <div class="skill-title">React</div>
-                            </div>
-                            <div class="skill-description">Building scalable single-page applications with component-based architecture and state management.</div>
-                            <div class="skill-progress-container">
-                                <div class="skill-progress-label"><span>Proficiency</span><span>85%</span></div>
-                                <div class="skill-progress"><div class="skill-progress-bar" data-width="85%"></div></div>
-                            </div>
-                            <div class="skill-tags">
-                                <span class="skill-tag">Hooks</span>
-                                <span class="skill-tag">Redux</span>
-                                <span class="skill-tag">JSX</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Card 4: Vue.js -->
-                        <div class="skill-card" data-category="frameworks">
-                            <div class="skill-header">
-                                <div class="skill-icon"><i class="fab fa-vuejs"></i></div>
-                                <div class="skill-title">Vue.js</div>
-                            </div>
-                            <div class="skill-description">Progressive framework for building modern user interfaces and single-page applications.</div>
-                            <div class="skill-progress-container">
-                                <div class="skill-progress-label"><span>Proficiency</span><span>80%</span></div>
-                                <div class="skill-progress"><div class="skill-progress-bar" data-width="80%"></div></div>
-                            </div>
-                            <div class="skill-tags">
-                                <span class="skill-tag">Vuex</span>
-                                <span class="skill-tag">Vue Router</span>
-                                <span class="skill-tag">Nuxt</span>
+                        <div class="flip-card" data-category="core">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="card-suit-corner top-left card-suit-black">K<span class="suit-symbol"><i class="fab fa-js-square"></i></span></div>
+                                    <div class="card-suit-corner bottom-right card-suit-black">K<span class="suit-symbol"><i class="fab fa-js-square"></i></span></div>
+                                    <div class="skill-card-content">
+                                        <div class="skill-icon-large" style="background: var(--gradient-2);"><i class="fab fa-js-square"></i></div>
+                                        <div class="skill-title-large">JavaScript</div>
+                                        <div class="skill-category-badge">Core Technology</div>
+                                    </div>
+                                    <div class="flip-hint"><i class="fas fa-hand-pointer"></i> Click to flip</div>
+                                </div>
+                                <div class="flip-card-back gradient-2">
+                                    <div class="back-header"><div class="back-icon" style="background: var(--gradient-2);"><i class="fab fa-js-square"></i></div><div><div class="back-title">JavaScript</div><div class="back-subtitle">Core Technology</div></div></div>
+                                    <div class="back-description">Bringing websites to life with dynamic logic, DOM manipulation, and asynchronous programming. Modern ES6+ syntax mastery.</div>
+                                    <div class="back-progress-section"><div class="back-progress-label"><span>Proficiency</span><span style="color: #f093fb;">90%</span></div><div class="back-progress-bar"><div class="back-progress-fill" style="width: 90%; background: var(--gradient-2);"></div></div></div>
+                                    <div class="back-tags"><span class="back-tag">ES6+</span><span class="back-tag">DOM</span><span class="back-tag">Async</span><span class="back-tag">Promises</span></div>
+                                </div>
                             </div>
                         </div>
                         
-                        <!-- Card 5: Angular -->
-                        <div class="skill-card" data-category="frameworks">
-                            <div class="skill-header">
-                                <div class="skill-icon"><i class="fab fa-angular"></i></div>
-                                <div class="skill-title">Angular</div>
-                            </div>
-                            <div class="skill-description">Platform for building mobile and desktop web applications using TypeScript.</div>
-                            <div class="skill-progress-container">
-                                <div class="skill-progress-label"><span>Proficiency</span><span>75%</span></div>
-                                <div class="skill-progress"><div class="skill-progress-bar" data-width="75%"></div></div>
-                            </div>
-                            <div class="skill-tags">
-                                <span class="skill-tag">TypeScript</span>
-                                <span class="skill-tag">RxJS</span>
-                                <span class="skill-tag">NgRx</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Card 6: Tailwind CSS -->
-                        <div class="skill-card" data-category="styling">
-                            <div class="skill-header">
-                                <div class="skill-icon"><i class="fas fa-wind"></i></div>
-                                <div class="skill-title">Tailwind CSS</div>
-                            </div>
-                            <div class="skill-description">A utility-first CSS framework for rapidly building custom user interfaces.</div>
-                            <div class="skill-progress-container">
-                                <div class="skill-progress-label"><span>Proficiency</span><span>90%</span></div>
-                                <div class="skill-progress"><div class="skill-progress-bar" data-width="90%"></div></div>
-                            </div>
-                            <div class="skill-tags">
-                                <span class="skill-tag">Utility-First</span>
-                                <span class="skill-tag">Responsive</span>
-                                <span class="skill-tag">JIT</span>
+                        <div class="flip-card" data-category="frameworks">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="card-suit-corner top-left card-suit-red">Q<span class="suit-symbol"><i class="fab fa-react"></i></span></div>
+                                    <div class="card-suit-corner bottom-right card-suit-red">Q<span class="suit-symbol"><i class="fab fa-react"></i></span></div>
+                                    <div class="skill-card-content">
+                                        <div class="skill-icon-large" style="background: var(--gradient-3);"><i class="fab fa-react"></i></div>
+                                        <div class="skill-title-large">React</div>
+                                        <div class="skill-category-badge">Framework</div>
+                                    </div>
+                                    <div class="flip-hint"><i class="fas fa-hand-pointer"></i> Click to flip</div>
+                                </div>
+                                <div class="flip-card-back gradient-3">
+                                    <div class="back-header"><div class="back-icon" style="background: var(--gradient-3);"><i class="fab fa-react"></i></div><div><div class="back-title">React</div><div class="back-subtitle">Framework</div></div></div>
+                                    <div class="back-description">Building scalable single-page applications with component-based architecture, hooks, and modern state management solutions.</div>
+                                    <div class="back-progress-section"><div class="back-progress-label"><span>Proficiency</span><span style="color: #4facfe;">85%</span></div><div class="back-progress-bar"><div class="back-progress-fill" style="width: 85%; background: var(--gradient-3);"></div></div></div>
+                                    <div class="back-tags"><span class="back-tag">Hooks</span><span class="back-tag">Redux</span><span class="back-tag">JSX</span><span class="back-tag">Next.js</span></div>
+                                </div>
                             </div>
                         </div>
                         
-                        <!-- Card 7: Bootstrap -->
-                        <div class="skill-card" data-category="styling">
-                            <div class="skill-header">
-                                <div class="skill-icon"><i class="fab fa-bootstrap"></i></div>
-                                <div class="skill-title">Bootstrap</div>
-                            </div>
-                            <div class="skill-description">The world's most popular front-end open source toolkit for responsive layouts.</div>
-                            <div class="skill-progress-container">
-                                <div class="skill-progress-label"><span>Proficiency</span><span>85%</span></div>
-                                <div class="skill-progress"><div class="skill-progress-bar" data-width="85%"></div></div>
-                            </div>
-                            <div class="skill-tags">
-                                <span class="skill-tag">Grid System</span>
-                                <span class="skill-tag">Components</span>
-                                <span class="skill-tag">Sass</span>
+                        <div class="flip-card" data-category="frameworks">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="card-suit-corner top-left card-suit-black">J<span class="suit-symbol"><i class="fab fa-vuejs"></i></span></div>
+                                    <div class="card-suit-corner bottom-right card-suit-black">J<span class="suit-symbol"><i class="fab fa-vuejs"></i></span></div>
+                                    <div class="skill-card-content">
+                                        <div class="skill-icon-large" style="background: var(--gradient-4);"><i class="fab fa-vuejs"></i></div>
+                                        <div class="skill-title-large">Vue.js</div>
+                                        <div class="skill-category-badge">Framework</div>
+                                    </div>
+                                    <div class="flip-hint"><i class="fas fa-hand-pointer"></i> Click to flip</div>
+                                </div>
+                                <div class="flip-card-back gradient-4">
+                                    <div class="back-header"><div class="back-icon" style="background: var(--gradient-4);"><i class="fab fa-vuejs"></i></div><div><div class="back-title">Vue.js</div><div class="back-subtitle">Framework</div></div></div>
+                                    <div class="back-description">Progressive framework for building modern user interfaces and single-page applications with reactive data binding.</div>
+                                    <div class="back-progress-section"><div class="back-progress-label"><span>Proficiency</span><span style="color: #43e97b;">80%</span></div><div class="back-progress-bar"><div class="back-progress-fill" style="width: 80%; background: var(--gradient-4);"></div></div></div>
+                                    <div class="back-tags"><span class="back-tag">Vuex</span><span class="back-tag">Vue Router</span><span class="back-tag">Nuxt</span><span class="back-tag">Composition API</span></div>
+                                </div>
                             </div>
                         </div>
                         
-                        <!-- Card 8: jQuery -->
-                        <div class="skill-card" data-category="libraries">
-                            <div class="skill-header">
-                                <div class="skill-icon"><i class="fas fa-code"></i></div>
-                                <div class="skill-title">jQuery</div>
+                        <div class="flip-card" data-category="frameworks">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="card-suit-corner top-left card-suit-red">10<span class="suit-symbol"><i class="fab fa-angular"></i></span></div>
+                                    <div class="card-suit-corner bottom-right card-suit-red">10<span class="suit-symbol"><i class="fab fa-angular"></i></span></div>
+                                    <div class="skill-card-content">
+                                        <div class="skill-icon-large" style="background: var(--gradient-5);"><i class="fab fa-angular"></i></div>
+                                        <div class="skill-title-large">Angular</div>
+                                        <div class="skill-category-badge">Framework</div>
+                                    </div>
+                                    <div class="flip-hint"><i class="fas fa-hand-pointer"></i> Click to flip</div>
+                                </div>
+                                <div class="flip-card-back gradient-5">
+                                    <div class="back-header"><div class="back-icon" style="background: var(--gradient-5);"><i class="fab fa-angular"></i></div><div><div class="back-title">Angular</div><div class="back-subtitle">Framework</div></div></div>
+                                    <div class="back-description">Platform for building mobile and desktop web applications using TypeScript with dependency injection and modular architecture.</div>
+                                    <div class="back-progress-section"><div class="back-progress-label"><span>Proficiency</span><span style="color: #fa709a;">75%</span></div><div class="back-progress-bar"><div class="back-progress-fill" style="width: 75%; background: var(--gradient-5);"></div></div></div>
+                                    <div class="back-tags"><span class="back-tag">TypeScript</span><span class="back-tag">RxJS</span><span class="back-tag">NgRx</span><span class="back-tag">Services</span></div>
+                                </div>
                             </div>
-                            <div class="skill-description">Feature-rich JavaScript library for DOM traversal, event handling, and animation.</div>
-                            <div class="skill-progress-container">
-                                <div class="skill-progress-label"><span>Proficiency</span><span>80%</span></div>
-                                <div class="skill-progress"><div class="skill-progress-bar" data-width="80%"></div></div>
+                        </div>
+                        
+                        <div class="flip-card" data-category="styling">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="card-suit-corner top-left card-suit-black">9<span class="suit-symbol"><i class="fas fa-wind"></i></span></div>
+                                    <div class="card-suit-corner bottom-right card-suit-black">9<span class="suit-symbol"><i class="fas fa-wind"></i></span></div>
+                                    <div class="skill-card-content">
+                                        <div class="skill-icon-large" style="background: var(--gradient-6);"><i class="fas fa-wind"></i></div>
+                                        <div class="skill-title-large">Tailwind CSS</div>
+                                        <div class="skill-category-badge">Styling</div>
+                                    </div>
+                                    <div class="flip-hint"><i class="fas fa-hand-pointer"></i> Click to flip</div>
+                                </div>
+                                <div class="flip-card-back gradient-6">
+                                    <div class="back-header"><div class="back-icon" style="background: var(--gradient-6);"><i class="fas fa-wind"></i></div><div><div class="back-title">Tailwind CSS</div><div class="back-subtitle">Styling</div></div></div>
+                                    <div class="back-description">A utility-first CSS framework for rapidly building custom user interfaces with consistent design systems.</div>
+                                    <div class="back-progress-section"><div class="back-progress-label"><span>Proficiency</span><span style="color: #30cfd0;">90%</span></div><div class="back-progress-bar"><div class="back-progress-fill" style="width: 90%; background: var(--gradient-6);"></div></div></div>
+                                    <div class="back-tags"><span class="back-tag">Utility-First</span><span class="back-tag">Responsive</span><span class="back-tag">JIT</span><span class="back-tag">Dark Mode</span></div>
+                                </div>
                             </div>
-                            <div class="skill-tags">
-                                <span class="skill-tag">DOM</span>
-                                <span class="skill-tag">AJAX</span>
-                                <span class="skill-tag">Animation</span>
+                        </div>
+                        
+                        <div class="flip-card" data-category="styling">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="card-suit-corner top-left card-suit-red">8<span class="suit-symbol"><i class="fab fa-bootstrap"></i></span></div>
+                                    <div class="card-suit-corner bottom-right card-suit-red">8<span class="suit-symbol"><i class="fab fa-bootstrap"></i></span></div>
+                                    <div class="skill-card-content">
+                                        <div class="skill-icon-large" style="background: var(--gradient-7);"><i class="fab fa-bootstrap"></i></div>
+                                        <div class="skill-title-large">Bootstrap</div>
+                                        <div class="skill-category-badge">Styling</div>
+                                    </div>
+                                    <div class="flip-hint"><i class="fas fa-hand-pointer"></i> Click to flip</div>
+                                </div>
+                                <div class="flip-card-back gradient-7">
+                                    <div class="back-header"><div class="back-icon" style="background: var(--gradient-7);"><i class="fab fa-bootstrap"></i></div><div><div class="back-title">Bootstrap</div><div class="back-subtitle">Styling</div></div></div>
+                                    <div class="back-description">The world's most popular front-end open source toolkit for responsive layouts with pre-built components.</div>
+                                    <div class="back-progress-section"><div class="back-progress-label"><span>Proficiency</span><span style="color: #a8edea;">85%</span></div><div class="back-progress-bar"><div class="back-progress-fill" style="width: 85%; background: var(--gradient-7);"></div></div></div>
+                                    <div class="back-tags"><span class="back-tag">Grid System</span><span class="back-tag">Components</span><span class="back-tag">Sass</span><span class="back-tag">RTL</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flip-card" data-category="libraries">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="card-suit-corner top-left card-suit-black">7<span class="suit-symbol"><i class="fas fa-code"></i></span></div>
+                                    <div class="card-suit-corner bottom-right card-suit-black">7<span class="suit-symbol"><i class="fas fa-code"></i></span></div>
+                                    <div class="skill-card-content">
+                                        <div class="skill-icon-large" style="background: var(--gradient-8);"><i class="fas fa-code"></i></div>
+                                        <div class="skill-title-large">jQuery</div>
+                                        <div class="skill-category-badge">Library</div>
+                                    </div>
+                                    <div class="flip-hint"><i class="fas fa-hand-pointer"></i> Click to flip</div>
+                                </div>
+                                <div class="flip-card-back gradient-8">
+                                    <div class="back-header"><div class="back-icon" style="background: var(--gradient-8);"><i class="fas fa-code"></i></div><div><div class="back-title">jQuery</div><div class="back-subtitle">Library</div></div></div>
+                                    <div class="back-description">Feature-rich JavaScript library for DOM traversal, event handling, animation, and Ajax interactions.</div>
+                                    <div class="back-progress-section"><div class="back-progress-label"><span>Proficiency</span><span style="color: #ff9a9e;">80%</span></div><div class="back-progress-bar"><div class="back-progress-fill" style="width: 80%; background: var(--gradient-8);"></div></div></div>
+                                    <div class="back-tags"><span class="back-tag">DOM</span><span class="back-tag">AJAX</span><span class="back-tag">Animation</span><span class="back-tag">Plugins</span></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
             <div class="skills-controls">
                 <button class="skill-btn" id="skillsPrevBtn"><i class="fas fa-chevron-left"></i></button>
                 <button class="skill-btn" id="skillsNextBtn"><i class="fas fa-chevron-right"></i></button>
@@ -1492,65 +1647,351 @@
             
             <div class="horizontal-scroll-container" id="projectsScrollContainer">
                 <div class="projects-slider" id="projectsSlider">
-                    <div class="project-card">
-                        <div class="project-img">
-                            <img src="https://z-cdn-media.chatglm.cn/files/70ff918e-cfee-4730-a64c-ad85e89f812f.jpg?auth_key=1869374406-f7491389bdb842109ad1ab36d7cd8c09-0-4b6dba5492d4ea6c7c1fd8f4f8c85ccb" alt="Project 1">
-                        </div>
-                        <div class="project-content">
-                            <h3>E-Commerce Dashboard</h3>
-                            <p>A comprehensive admin dashboard built with React and Tailwind CSS to manage products, orders, and user analytics.</p>
-                            <div class="project-tags">
-                                <span class="project-tag">React</span>
-                                <span class="project-tag">Tailwind</span>
-                                <span class="project-tag">Redux</span>
+                    
+                    <!-- 1. Ujay.Store -->
+                    <div class="project-flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="project-image-container">
+                                    <img src="https://z-cdn-media.chatglm.cn/files/4e0a3a9a-506c-4eac-80d7-dda33d8a246f.jpg?auth_key=1873325488-1bdd031c83e34afc922e9b5c85dc194d-0-c001923c3d67c64cad54dc112ed38a8f" alt="Ujay Store">
+                                    <div class="project-image-overlay"></div>
+                                </div>
+                                <div class="project-front-content">
+                                    <div class="project-front-title">Ujay.Store</div>
+                                    <div class="project-front-desc">Official store dengan promo spesial Ramadhan 2026 diskon 10%. Fitur countdown event berakhir 31 Maret 2026 dengan live progress.</div>
+                                    <div class="project-front-tags">
+                                        <span class="project-front-tag">E-Commerce</span>
+                                        <span class="project-front-tag">Countdown</span>
+                                        <span class="project-front-tag">Promo</span>
+                                    </div>
+                                </div>
+                                <div class="flip-hint" style="bottom: 8px;"><i class="fas fa-hand-pointer"></i> Click to flip</div>
+                            </div>
+                            <div class="flip-card-back">
+                                <div class="project-back-icon" style="background: var(--gradient-1);"><i class="fas fa-shopping-bag"></i></div>
+                                <div class="project-back-title">Ujay.Store</div>
+                                <div class="project-back-type">E-Commerce & Landing Page</div>
+                                <div class="project-back-details">
+                                    <div class="project-back-detail-item">
+                                        <div class="project-back-detail-icon"><i class="fas fa-tag"></i></div>
+                                        <div class="project-back-detail-text"><strong>Promo Spesial</strong>Ramadhan 2026 - DISKON 10%</div>
+                                    </div>
+                                    <div class="project-back-detail-item">
+                                        <div class="project-back-detail-icon"><i class="fas fa-clock"></i></div>
+                                        <div class="project-back-detail-text"><strong>Countdown Event</strong>Berakhir 31 Maret 2026 (WIB), Progress: 38.35%</div>
+                                    </div>
+                                    <div class="project-back-detail-item">
+                                        <div class="project-back-detail-icon"><i class="fas fa-star"></i></div>
+                                        <div class="project-back-detail-text"><strong>Features</strong>Live countdown, promo banner, product catalog</div>
+                                    </div>
+                                </div>
+                                <span class="project-back-btn secret-link" data-target="aHR0cHM6Ly91amF5eS52ZXJjZWwuYXBwLw==">
+                                    Visit Site <i class="fas fa-external-link-alt"></i>
+                                </span>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="project-card">
-                        <div class="project-img">
-                            <img src="https://z-cdn-media.chatglm.cn/files/74ef1a18-b6d8-47fb-848a-ef2b29b6a204.jpg?auth_key=1867383998-a690377424af412592c49868cc4d4177-0-9a38c9e26a7ed6ca7499bbfc78842592" alt="Project 2">
-                        </div>
-                        <div class="project-content">
-                            <h3>Social Media App UI</h3>
-                            <p>A modern, responsive social media application interface built using Vue.js and Bootstrap for seamless user experience.</p>
-                            <div class="project-tags">
-                                <span class="project-tag">Vue.js</span>
-                                <span class="project-tag">Bootstrap</span>
-                                <span class="project-tag">Firebase</span>
+                    <!-- 2. Deadlysins Store -->
+                    <div class="project-flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="project-image-container">
+                                    <img src="https://z-cdn-media.chatglm.cn/files/2b91b915-ec5c-4f52-9109-18cb19d329cf.jpg?auth_key=1873325488-a9519e982e304824b35efab53e8cd66d-0-f06c5ed2ab9ccb32278df728998a1691" alt="Deadlysins Store">
+                                    <div class="project-image-overlay"></div>
+                                </div>
+                                <div class="project-front-content">
+                                    <div class="project-front-title">DeatlySins Store</div>
+                                    <div class="project-front-desc">Platform joki game dengan berbagai mode layanan: Challenge, Inferno, dan DarkCave Port dengan harga kompetitif.</div>
+                                    <div class="project-front-tags">
+                                        <span class="project-front-tag">Gaming</span>
+                                        <span class="project-front-tag">Joki Service</span>
+                                        <span class="project-front-tag">Dark Theme</span>
+                                    </div>
+                                </div>
+                                <div class="flip-hint" style="bottom: 8px;"><i class="fas fa-hand-pointer"></i> Click to flip</div>
+                            </div>
+                            <div class="flip-card-back">
+                                <div class="project-back-icon" style="background: var(--gradient-2);"><i class="fas fa-gamepad"></i></div>
+                                <div class="project-back-title">DeatlySins Store</div>
+                                <div class="project-back-type">Gaming Service Platform</div>
+                                <div class="project-back-details">
+                                    <div class="project-back-detail-item">
+                                        <div class="project-back-detail-icon"><i class="fas fa-list"></i></div>
+                                        <div class="project-back-detail-text"><strong>Daftar Harga Layanan</strong>Mode Challenge: Rp12.000/M, Mode Inferno: Rp15.000/M, DarkCave Port: Rp9.500/M</div>
+                                    </div>
+                                    <div class="project-back-detail-item">
+                                        <div class="project-back-detail-icon"><i class="fas fa-star"></i></div>
+                                        <div class="project-back-detail-text"><strong>Features</strong>Order tracking, pricing list, responsive design</div>
+                                    </div>
+                                </div>
+                                <span class="project-back-btn secret-link" data-target="aHR0cHM6Ly9kZWF0bHlzaW5zc3RvcmUudmVyY2VsLmFwcC8=">
+                                    Visit Site <i class="fas fa-external-link-alt"></i>
+                                </span>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="project-card">
-                        <div class="project-img">
-                            <img src="https://z-cdn-media.chatglm.cn/files/03764c83-4881-4345-b300-d0393ab12fdc.jpg?auth_key=1867383998-bc4f2cb90aa14171ac293dcb0890cb1e-0-eeb20d2ef5f988691b49314c370ef895" alt="Project 3">
-                        </div>
-                        <div class="project-content">
-                            <h3>Portfolio Website</h3>
-                            <p>A sleek, dark-themed personal portfolio website showcasing projects and skills with smooth animations.</p>
-                            <div class="project-tags">
-                                <span class="project-tag">HTML5</span>
-                                <span class="project-tag">CSS3</span>
-                                <span class="project-tag">JavaScript</span>
+                    <!-- 3. Personal Portfolio Website -->
+                    <div class="project-flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="project-image-container">
+                                    <img src="https://z-cdn-media.chatglm.cn/files/dd9169ea-2e33-4e7e-8fc6-fd227632e7b8.jpg?auth_key=1873325488-c4c096702a47403bb35ec434f9565af4-0-8be029ecb25740ce16abd7fe8900600c" alt="Personal Portfolio">
+                                    <div class="project-image-overlay"></div>
+                                </div>
+                                <div class="project-front-content">
+                                    <div class="project-front-title">Personal Portfolio Website</div>
+                                    <div class="project-front-desc">Website portofolio personal Ahmad Fauzi (Ujay) dengan navigasi modern dan tombol aksi lengkap.</div>
+                                    <div class="project-front-tags">
+                                        <span class="project-front-tag">Portfolio</span>
+                                        <span class="project-front-tag">Personal</span>
+                                        <span class="project-front-tag">Modern</span>
+                                    </div>
+                                </div>
+                                <div class="flip-hint" style="bottom: 8px;"><i class="fas fa-hand-pointer"></i> Click to flip</div>
+                            </div>
+                            <div class="flip-card-back">
+                                <div class="project-back-icon" style="background: var(--gradient-3);"><i class="fas fa-user-circle"></i></div>
+                                <div class="project-back-title">Personal Portfolio</div>
+                                <div class="project-back-type">Personal Branding</div>
+                                <div class="project-back-details">
+                                    <div class="project-back-detail-item">
+                                        <div class="project-back-detail-icon"><i class="fas fa-heading"></i></div>
+                                        <div class="project-back-detail-text"><strong>Greeting</strong>HELLO, I'M AHMAD FAUZI (UJAY)</div>
+                                    </div>
+                                    <div class="project-back-detail-item">
+                                        <div class="project-back-detail-icon"><i class="fas fa-bars"></i></div>
+                                        <div class="project-back-detail-text"><strong>Navigation</strong>Ujay, Home, About, Store (with shopping bag icon)</div>
+                                    </div>
+                                    <div class="project-back-detail-item">
+                                        <div class="project-back-detail-icon"><i class="fas fa-mouse-pointer"></i></div>
+                                        <div class="project-back-detail-text"><strong>Actions</strong>VIEW MY WORK, GET IN TOUCH, VISIT MY STORE, JOIN ALL GROUP</div>
+                                    </div>
+                                </div>
+                                <span class="project-back-btn secret-link" data-target="aHR0cHM6Ly91amF5eS5teS5pZC8=">
+                                    Visit Site <i class="fas fa-home"></i>
+                                </span>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="project-card">
-                        <div class="project-img">
-                            <img src="https://z-cdn-media.chatglm.cn/files/96f01762-cb63-43cf-ac7b-c6086a433195.jpg?auth_key=1867383998-6f37cfb75dac426d9d1a6ba6644f8d51-0-6b6bfc7d0c1d696b071fcee345dbfb1e" alt="Project 4">
-                        </div>
-                        <div class="project-content">
-                            <h3>Enterprise Web App</h3>
-                            <p>A scalable enterprise solution developed with Angular, featuring robust authentication and data management.</p>
-                            <div class="project-tags">
-                                <span class="project-tag">Angular</span>
-                                <span class="project-tag">TypeScript</span>
-                                <span class="project-tag">REST API</span>
+                    <!-- 4. ExvvStore -->
+                    <div class="project-flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="project-image-container">
+                                    <img src="https://z-cdn-media.chatglm.cn/files/f31cceb1-9ca3-466d-a0d1-31480d979bcd.jpg?auth_key=1873325488-d08e8b6eb0f54a27b56717918e14223b-0-09180815552d83efbe5a540062a84bf9" alt="ExvvStore">
+                                    <div class="project-image-overlay"></div>
+                                </div>
+                                <div class="project-front-content">
+                                    <div class="project-front-title">ExvvStore</div>
+                                    <div class="project-front-desc">Platform "EXVV 999 Open Joki All Game" dengan layanan Gold & Glory, Fisch It Roblox, dan Grow A Garden.</div>
+                                    <div class="project-front-tags">
+                                        <span class="project-front-tag">AI Chat</span>
+                                        <span class="project-front-tag">Gaming</span>
+                                        <span class="project-front-tag">Store</span>
+                                    </div>
+                                </div>
+                                <div class="flip-hint" style="bottom: 8px;"><i class="fas fa-hand-pointer"></i> Click to flip</div>
+                            </div>
+                            <div class="flip-card-back">
+                                <div class="project-back-icon" style="background: var(--gradient-4);"><i class="fas fa-store"></i></div>
+                                <div class="project-back-title">ExvvStore</div>
+                                <div class="project-back-type">Digital Store & AI Chat Space</div>
+                                <div class="project-back-details">
+                                    <div class="project-back-detail-item">
+                                        <div class="project-back-detail-icon"><i class="fas fa-gamepad"></i></div>
+                                        <div class="project-back-detail-text"><strong>Services</strong>GOLD AND GLORY (Rp.1000/2500 Gold), FISCH IT ROBLOX, GROW A GARDEN</div>
+                                    </div>
+                                    <div class="project-back-detail-item">
+                                        <div class="project-back-detail-icon"><i class="fas fa-check-circle"></i></div>
+                                        <div class="project-back-detail-text"><strong>Status</strong>Tersedia / Belum Tersedia dengan tombol "Pesan Sekarang"</div>
+                                    </div>
+                                </div>
+                                <span class="project-back-btn secret-link" data-target="aHR0cHM6Ly9qZ25leHZ2aXBwLm5ldGxpZnkuYXBwLw==">
+                                    Visit Site <i class="fas fa-external-link-alt"></i>
+                                </span>
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- 5. Portfolio Exvv -->
+                    <div class="project-flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="project-image-container">
+                                    <img src="https://z-cdn-media.chatglm.cn/files/8d37be3d-f944-4e89-b39b-ed39796d5c88.jpg?auth_key=1873325488-7c24c64c436748d78ae2a70a2afcb889-0-b99abbf36f2824fa3353d898ab726c25" alt="Portfolio Exvv">
+                                    <div class="project-image-overlay"></div>
+                                </div>
+                                <div class="project-front-content">
+                                    <div class="project-front-title">Portofolio Exvv</div>
+                                    <div class="project-front-desc">Website portofolio "Exvvlippp" untuk Full Stack Developer & Digital Marketer dengan desain elegan.</div>
+                                    <div class="project-front-tags">
+                                        <span class="project-front-tag">Full Stack</span>
+                                        <span class="project-front-tag">Digital Marketing</span>
+                                        <span class="project-front-tag">Portfolio</span>
+                                    </div>
+                                </div>
+                                <div class="flip-hint" style="bottom: 8px;"><i class="fas fa-hand-pointer"></i> Click to flip</div>
+                            </div>
+                            <div class="flip-card-back">
+                                <div class="project-back-icon" style="background: var(--gradient-5);"><i class="fas fa-id-card"></i></div>
+                                <div class="project-back-title">Portofolio Exvv</div>
+                                <div class="project-back-type">Personal Portfolio</div>
+                                <div class="project-back-details">
+                                    <div class="project-back-detail-item">
+                                        <div class="project-back-detail-icon"><i class="fas fa-user-tie"></i></div>
+                                        <div class="project-back-detail-text"><strong>Profile</strong>Exvvlippp - Full Stack Developer & Digital Marketer</div>
+                                    </div>
+                                    <div class="project-back-detail-item">
+                                        <div class="project-back-detail-icon"><i class="fas fa-quote-left"></i></div>
+                                        <div class="project-back-detail-text"><strong>Tagline</strong>"Creating digital experiences that drive results"</div>
+                                    </div>
+                                    <div class="project-back-detail-item">
+                                        <div class="project-back-detail-icon"><i class="fas fa-bars"></i></div>
+                                        <div class="project-back-detail-text"><strong>Navigation</strong>Home, About, Projects, Contact</div>
+                                    </div>
+                                </div>
+                                <span class="project-back-btn secret-link" data-target="aHR0cHM6Ly9hYm91dGV4dnYubmV0bGlmeS5hcHAv">
+                                    Visit Site <i class="fas fa-external-link-alt"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 6. Bengkel Opan -->
+                    <div class="project-flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="project-image-container">
+                                    <img src="https://z-cdn-media.chatglm.cn/files/51d2f2d4-1419-4494-a70f-4c6faa5bd682.jpg?auth_key=1873325488-a4d4748b803f40fa9c5fd22268104f4c-0-29b985a9526275e510c5900f54f1abee" alt="Bengkel Opan">
+                                    <div class="project-image-overlay"></div>
+                                </div>
+                                <div class="project-front-content">
+                                    <div class="project-front-title">Bengkel Opan</div>
+                                    <div class="project-front-desc">Solusi lengkap untuk motor, sepeda, dan peralatan rumah tangga. Buka 24/7 dengan layanan profesional.</div>
+                                    <div class="project-front-tags">
+                                        <span class="project-front-tag">Service</span>
+                                        <span class="project-front-tag">Motorcycle</span>
+                                        <span class="project-front-tag">24/7</span>
+                                    </div>
+                                </div>
+                                <div class="flip-hint" style="bottom: 8px;"><i class="fas fa-hand-pointer"></i> Click to flip</div>
+                            </div>
+                            <div class="flip-card-back">
+                                <div class="project-back-icon" style="background: var(--gradient-8);"><i class="fas fa-tools"></i></div>
+                                <div class="project-back-title">Bengkel Opan</div>
+                                <div class="project-back-type">Service Business</div>
+                                <div class="project-back-details">
+                                    <div class="project-back-detail-item">
+                                        <div class="project-back-detail-icon"><i class="fas fa-motorcycle"></i></div>
+                                        <div class="project-back-detail-text"><strong>Services</strong>Motor, Sepeda, Peralatan Rumah Tangga - Solusi Lengkap</div>
+                                    </div>
+                                    <div class="project-back-detail-item">
+                                        <div class="project-back-detail-icon"><i class="fas fa-clock"></i></div>
+                                        <div class="project-back-detail-text"><strong>Jam Operasional</strong>9AM - BUKA, 11PM - TUTUP, 24/7 ALL DAY</div>
+                                    </div>
+                                    <div class="project-back-detail-item">
+                                        <div class="project-back-detail-icon"><i class="fas fa-bars"></i></div>
+                                        <div class="project-back-detail-text"><strong>Navigation</strong>OPAN, Layanan, Galeri, Kontak, Hubungi Kami</div>
+                                    </div>
+                                </div>
+                                <span class="project-back-btn secret-link" data-target="aHR0cHM6Ly9iZW5na2VsbWRtdmVyY2VsLmFwcC8=">
+                                    Visit Site <i class="fas fa-external-link-alt"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 7. Titipin Aja Yuk -->
+                    <div class="project-flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="project-image-container">
+                                    <img src="https://z-cdn-media.chatglm.cn/files/fb9054a3-a02e-4693-ba78-fcb10ab678a8.jpg?auth_key=1873325488-3ec13b31758949cca5d9e4ac0d73b2a4-0-2b2cff9c946594f909048ef06dec685a" alt="Titipin Aja Yuk">
+                                    <div class="project-image-overlay"></div>
+                                </div>
+                                <div class="project-front-content">
+                                    <div class="project-front-title">Titipin Aja Yuk</div>
+                                    <div class="project-front-desc">Platform jasa titip (Jastip) untuk makanan, belanja, dan pengiriman barang. "Males Keluar? Yuk Titipin Aja!"</div>
+                                    <div class="project-front-tags">
+                                        <span class="project-front-tag">Jastip</span>
+                                        <span class="project-front-tag">Service</span>
+                                        <span class="project-front-tag">5.0 Rating</span>
+                                    </div>
+                                </div>
+                                <div class="flip-hint" style="bottom: 8px;"><i class="fas fa-hand-pointer"></i> Click to flip</div>
+                            </div>
+                            <div class="flip-card-back">
+                                <div class="project-back-icon" style="background: var(--gradient-6);"><i class="fas fa-box-open"></i></div>
+                                <div class="project-back-title">Titipin Aja Yuk</div>
+                                <div class="project-back-type">Service Platform</div>
+                                <div class="project-back-details">
+                                    <div class="project-back-detail-item">
+                                        <div class="project-back-detail-icon"><i class="fas fa-quote-left"></i></div>
+                                        <div class="project-back-detail-text"><strong>Tagline</strong>"Males Keluar? Atau Males Ribet? Yuk Titipin Aja!"</div>
+                                    </div>
+                                    <div class="project-back-detail-item">
+                                        <div class="project-back-detail-icon"><i class="fas fa-star"></i></div>
+                                        <div class="project-back-detail-text"><strong>Rating</strong>5.0 Rating - Terpercaya</div>
+                                    </div>
+                                    <div class="project-back-detail-item">
+                                        <div class="project-back-detail-icon"><i class="fas fa-bars"></i></div>
+                                        <div class="project-back-detail-text"><strong>Services</strong>Lihat Layanan Jastip, Lihat Perabotan, Lihat Layanan Jasa</div>
+                                    </div>
+                                </div>
+                                <span class="project-back-btn secret-link" data-target="aHR0cHM6Ly90aXRpcGluYWpheXVrLm5ldGxpZnkuYXBwLw==">
+                                    Visit Site <i class="fas fa-external-link-alt"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 8. Big Thanks -->
+                    <div class="project-flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="project-image-container">
+                                    <img src="https://z-cdn-media.chatglm.cn/files/df0fd6fd-78fa-4a83-8c51-3fae36cff266.jpg?auth_key=1873325488-ce0742e8d8ce45c3b6fe2ddf1553836e-0-3e0fc6623373ae47a0f9cf2348ee06ab" alt="Big Thanks">
+                                    <div class="project-image-overlay"></div>
+                                </div>
+                                <div class="project-front-content">
+                                    <div class="project-front-title">Big Thanks</div>
+                                    <div class="project-front-desc">Halaman apresiasi dengan desain minimalis untuk memberikan penghargaan kepada semua supporter dan kontributor.</div>
+                                    <div class="project-front-tags">
+                                        <span class="project-front-tag">Appreciation</span>
+                                        <span class="project-front-tag">Dark Theme</span>
+                                        <span class="project-front-tag">Minimalist</span>
+                                    </div>
+                                </div>
+                                <div class="flip-hint" style="bottom: 8px;"><i class="fas fa-hand-pointer"></i> Click to flip</div>
+                            </div>
+                            <div class="flip-card-back">
+                                <div class="project-back-icon" style="background: var(--gradient-7);"><i class="fas fa-heart"></i></div>
+                                <div class="project-back-title">Big Thanks</div>
+                                <div class="project-back-type">Appreciation Page</div>
+                                <div class="project-back-details">
+                                    <div class="project-back-detail-item">
+                                        <div class="project-back-detail-icon"><i class="fas fa-users"></i></div>
+                                        <div class="project-back-detail-text"><strong>Thanks To</strong>Daftar supporter: VENDORA (Debt Collector), ANEH (The Raja Ibelis), dan lainnya</div>
+                                    </div>
+                                    <div class="project-back-detail-item">
+                                        <div class="project-back-detail-icon"><i class="fas fa-quote-left"></i></div>
+                                        <div class="project-back-detail-text"><strong>Message</strong>"Terimakasih telah men support kami, semoga hidup mu sengsara."</div>
+                                    </div>
+                                    <div class="project-back-detail-item">
+                                        <div class="project-back-detail-icon"><i class="fas fa-door-open"></i></div>
+                                        <div class="project-back-detail-text"><strong>Action</strong>Tombol "MASUK STORE" berwarna merah</div>
+                                    </div>
+                                </div>
+                                <span class="project-back-btn secret-link" data-target="aHR0cHM6Ly9iZWF0bHlzaW5zc3RvcmUudmVyY2VsLmFwcC8=">
+                                    Visit Link <i class="fas fa-external-link-alt"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
             
@@ -1560,18 +2001,6 @@
             </div>
         </div>
     </section>
-
-    <!-- PROJECT MODAL STRUCTURE -->
-    <div class="modal-overlay" id="projectModal">
-        <div class="modal-content">
-            <button class="close-modal" id="closeModal">&times;</button>
-            <div class="modal-body">
-                <h3 id="modalTitle">Project Title</h3>
-                <p id="modalDesc">Project description goes here...</p>
-                <a href="#" class="modal-btn" onclick="document.getElementById('projectModal').classList.remove('open')">Close Details</a>
-            </div>
-        </div>
-    </div>
 
     <section class="section contact" id="contact">
         <div class="container">
@@ -1586,15 +2015,15 @@
                 </div>
                 
                 <div class="contact-buttons">
-                    <a href="#" class="contact-btn btn-hidden-link" data-link="https://t.me/aroncr">
+                    <span class="contact-btn secret-link" data-target="aHR0cHM6Ly90Lm1lL2Fyb25jcg==">
                         <i class="fab fa-telegram"></i> Telegram
-                    </a>
-                    <a href="#" class="contact-btn btn-hidden-link" data-link="https://instagram.com/aocnsrc">
+                    </span>
+                    <span class="contact-btn secret-link" data-target="aHR0cHM6Ly9pbnN0YWdyYW0uY29tL2FvY25zcmM=">
                         <i class="fab fa-instagram"></i> Instagram
-                    </a>
-                    <a href="#" class="contact-btn btn-hidden-link" data-link="mailto:af5137351@gmail.com">
+                    </span>
+                    <span class="contact-btn secret-link" data-target="bWFpbHRvOmFmNTEzNzM1MUBnbWFpbC5jb20=">
                         <i class="fas fa-envelope"></i> Email
-                    </a>
+                    </span>
                 </div>
             </div>
         </div>
@@ -1605,9 +2034,9 @@
             <div class="footer-content">
                 <div class="footer-logo">Ujay</div>
                 <div class="social-links">
-                    <a href="#" class="btn-hidden-link" data-link="https://t.me/aroncr" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
-                    <a href="#" class="btn-hidden-link" data-link="https://instagram.com/aocnsrc" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="btn-hidden-link" data-link="mailto:af5137351@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                    <span class="secret-link" data-target="aHR0cHM6Ly90Lm1lL2Fyb25jcg=="><i class="fab fa-telegram"></i></span>
+                    <span class="secret-link" data-target="aHR0cHM6Ly9pbnN0YWdyYW0uY29tL2FvY25zcmM="><i class="fab fa-instagram"></i></span>
+                    <span class="secret-link" data-target="bWFpbHRvOmFmNTEzNzM1MUBnbWFpbC5jb20="><i class="fas fa-envelope"></i></span>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -1617,6 +2046,15 @@
     </footer>
 
     <script>
+        // Base64 decode function
+        function decodeLink(encoded) {
+            try {
+                return atob(encoded);
+            } catch (e) {
+                return '';
+            }
+        }
+
         // CUSTOM CROSSHAIR CURSOR LOGIC
         const cursor = document.getElementById('customCursor');
         
@@ -1626,7 +2064,7 @@
                 cursor.style.top = e.clientY + 'px';
             });
 
-            const interactiveElements = document.querySelectorAll('a, button, .skill-tab, .project-card, input, textarea, select');
+            const interactiveElements = document.querySelectorAll('a, button, .skill-tab, input, textarea, select, .secret-link');
             
             interactiveElements.forEach(el => {
                 el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
@@ -1668,50 +2106,35 @@
             lastScrollTop = scrollTop;
         });
 
-        // HIDDEN LINK LOGIC
-        const hiddenLinks = document.querySelectorAll('.btn-hidden-link');
+        // SECRET LINK HANDLER - Link tersembunyi dengan Base64
+        const secretLinks = document.querySelectorAll('.secret-link');
 
-        hiddenLinks.forEach(link => {
+        secretLinks.forEach(link => {
+            // Prevent context menu (right click)
+            link.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
+
+            // Handle click
             link.addEventListener('click', function(e) {
                 e.preventDefault();
-                const targetUrl = this.getAttribute('data-link');
-                if (targetUrl) {
-                    if (targetUrl.startsWith('mailto:')) {
-                        window.location.href = targetUrl;
-                    } else {
-                        window.open(targetUrl, '_blank');
+                const encodedData = this.getAttribute('data-target');
+                if (encodedData) {
+                    const targetUrl = decodeLink(encodedData);
+                    if (targetUrl) {
+                        if (targetUrl.startsWith('mailto:')) {
+                            window.location.href = targetUrl;
+                        } else {
+                            window.open(targetUrl, '_blank', 'noopener,noreferrer');
+                        }
                     }
                 }
             });
-        });
 
-        // PROJECT MODAL LOGIC
-        const modal = document.getElementById('projectModal');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalDesc = document.getElementById('modalDesc');
-        const closeModal = document.getElementById('closeModal');
-        const projectCards = document.querySelectorAll('.project-card');
-
-        projectCards.forEach(card => {
-            card.addEventListener('click', function() {
-                const title = card.querySelector('h3').innerText;
-                const desc = card.querySelector('p').innerText;
-
-                modalTitle.innerText = title;
-                modalDesc.innerHTML = `${desc}<br><br><strong>Status:</strong> Completed<br><strong>Role:</strong> Front-End Developer<br><br>This project showcases modern front-end capabilities and responsive design principles.`;
-
-                modal.classList.add('open');
+            // Prevent drag
+            link.addEventListener('dragstart', function(e) {
+                e.preventDefault();
             });
-        });
-
-        closeModal.addEventListener('click', () => {
-            modal.classList.remove('open');
-        });
-
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.remove('open');
-            }
         });
         
         // TYPING ANIMATION
@@ -1759,7 +2182,7 @@
         
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
-                if(this.getAttribute('href') !== '#' && !this.closest('.modal-body')) {
+                if(this.getAttribute('href') !== '#') {
                     e.preventDefault();
                     const targetId = this.getAttribute('href');
                     const targetElement = document.querySelector(targetId);
@@ -1771,7 +2194,6 @@
         });
         
         // SKILLS SLIDER CONTROLS
-        const skillsSlider = document.getElementById('skillsSlider');
         const skillsScrollContainer = document.getElementById('skillsScrollContainer');
         const skillsPrevBtn = document.getElementById('skillsPrevBtn');
         const skillsNextBtn = document.getElementById('skillsNextBtn');
@@ -1780,24 +2202,23 @@
         skillsNextBtn.addEventListener('click', function() { skillsScrollContainer.scrollBy({ left: 300, behavior: 'smooth' }); });
         
         // PROJECTS SLIDER CONTROLS
-        const projectsSlider = document.getElementById('projectsSlider');
         const projectsScrollContainer = document.getElementById('projectsScrollContainer');
         const projectsPrevBtn = document.getElementById('projectsPrevBtn');
         const projectsNextBtn = document.getElementById('projectsNextBtn');
         
-        projectsPrevBtn.addEventListener('click', function() { projectsScrollContainer.scrollBy({ left: -300, behavior: 'smooth' }); });
-        projectsNextBtn.addEventListener('click', function() { projectsScrollContainer.scrollBy({ left: 300, behavior: 'smooth' }); });
+        projectsPrevBtn.addEventListener('click', function() { projectsScrollContainer.scrollBy({ left: -320, behavior: 'smooth' }); });
+        projectsNextBtn.addEventListener('click', function() { projectsScrollContainer.scrollBy({ left: 320, behavior: 'smooth' }); });
         
         // SKILLS TABS FILTERING
         const skillTabs = document.querySelectorAll('.skill-tab');
-        const skillCards = document.querySelectorAll('.skill-card');
+        const flipCards = document.querySelectorAll('.flip-card');
         
         skillTabs.forEach(tab => {
             tab.addEventListener('click', function() {
                 skillTabs.forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
                 const category = this.getAttribute('data-category');
-                skillCards.forEach(card => {
+                flipCards.forEach(card => {
                     if (category === 'all' || card.getAttribute('data-category') === category) {
                         card.style.display = 'inline-block';
                     } else {
@@ -1807,44 +2228,35 @@
             });
         });
         
-        // SKILL BARS ANIMATION
-        const skillProgressBars = document.querySelectorAll('.skill-progress-bar');
+        // CLICK TO FLIP LOGIC FOR ALL CARDS
+        const allFlipCards = document.querySelectorAll('.flip-card, .project-flip-card');
         
-        function animateSkillBars() {
-            skillProgressBars.forEach(bar => {
-                const width = bar.getAttribute('data-width');
-                bar.style.width = width;
+        allFlipCards.forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Prevent flipping when clicking on a link inside the card
+                if (e.target.closest('.secret-link')) return;
+                this.classList.toggle('flipped');
             });
-        }
+        });
         
-        const skillsSection = document.querySelector('.skills');
-        const skillsObserver = new IntersectionObserver(function(entries) {
+        // ANIMATE PROGRESS BARS ON SCROLL
+        const progressBars = document.querySelectorAll('.back-progress-fill');
+        
+        const progressObserver = new IntersectionObserver(function(entries) {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    animateSkillBars();
-                    skillsObserver.unobserve(entry.target);
+                    const bar = entry.target;
+                    const width = bar.style.width;
+                    bar.style.width = '0%';
+                    setTimeout(() => {
+                        bar.style.width = width;
+                    }, 100);
                 }
             });
         }, { threshold: 0.3 });
         
-        skillsObserver.observe(skillsSection);
-        
-        // ADDITIONAL CSS FOR ANIMATIONS DYNAMICALLY
-        const style = document.createElement('style');
-        style.textContent = `@keyframes fadeInOut { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); } 20% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 80% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); } }`;
-        document.head.appendChild(style);
-        
-        // PARTICLES RESIZE LOGIC
-        window.addEventListener('resize', function() {
-            const particlesContainer = document.getElementById('particles');
-            if (window.innerWidth <= 768) {
-                particlesContainer.style.display = 'none';
-            } else {
-                particlesContainer.style.display = 'block';
-                if (particlesContainer.children.length === 0) { 
-                    // createParticles(); 
-                }
-            }
+        progressBars.forEach(bar => {
+            progressObserver.observe(bar);
         });
     </script>
 </body>
